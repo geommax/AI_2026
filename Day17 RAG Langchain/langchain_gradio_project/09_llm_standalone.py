@@ -12,6 +12,11 @@ Usage:
 """
 
 import torch
+from runtime_env import sanitize_ssl_env
+from pathlib import Path
+
+sanitize_ssl_env()
+
 import gradio as gr
 from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
 
@@ -19,11 +24,15 @@ from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
 # ── Model Loading ────────────────────────────────────────────────────────
 
 MODEL_ID = "Qwen/Qwen2.5-3B-Instruct"
+MODEL_PATH = Path(
+    "~/Desktop/share_drive/models--Qwen--Qwen2.5-3B-Instruct/models--Qwen--Qwen2.5-3B-Instruct/snapshots/aa8e72537993ba99e69dfaafa59ed015b17504d1"
+).expanduser()
 
-print(f"Loading model: {MODEL_ID} ...")
-tokenizer = AutoTokenizer.from_pretrained(MODEL_ID, local_files_only=True)
+print(f"Loading model: {MODEL_ID}")
+print(f"Using local path: {MODEL_PATH}")
+tokenizer = AutoTokenizer.from_pretrained(MODEL_PATH, local_files_only=True)
 model = AutoModelForCausalLM.from_pretrained(
-    MODEL_ID,
+    MODEL_PATH,
     device_map="auto",
     torch_dtype=torch.float16 if torch.cuda.is_available() else torch.float32,
     local_files_only=True,
@@ -81,6 +90,7 @@ def build_standalone_interface() -> gr.Blocks:
         gr.Markdown(
             "RAG pipeline မပါဘဲ LLM ရဲ့ **raw knowledge** ကို စစ်ဆေးတဲ့ tool ဖြစ်ပါတယ်။\n\n"
             f"**Model:** `{MODEL_ID}`\n\n"
+            f"**Local Path:** `{MODEL_PATH}`\n\n"
             "ဒီမှာ question မေးကြည့်ပြီး model က ဘာတွေသိလဲ၊ "
             "ကိုယ့် domain knowledge ပါသလား စစ်ဆေးနိုင်ပါတယ်။"
         )
@@ -184,4 +194,4 @@ def build_standalone_interface() -> gr.Blocks:
 
 if __name__ == "__main__":
     demo = build_standalone_interface()
-    demo.launch(theme=gr.themes.Soft())
+    demo.launch(server_name="0.0.0.0", theme=gr.themes.Soft())

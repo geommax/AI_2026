@@ -7,6 +7,10 @@ pip install langchain langchain-huggingface langchain-chroma langchain-community
 """
 
 import importlib
+from runtime_env import sanitize_ssl_env
+
+sanitize_ssl_env()
+
 import gradio as gr
 
 # Numeric-prefixed filenames များကို importlib နဲ့ import လုပ်ရတယ်
@@ -92,4 +96,4 @@ def answer_question(question):
 
 if __name__ == "__main__":
     demo = build_interface(process_document, answer_question)
-    demo.launch(theme=gr.themes.Soft())
+    demo.launch(server_name="0.0.0.0", theme=gr.themes.Soft())

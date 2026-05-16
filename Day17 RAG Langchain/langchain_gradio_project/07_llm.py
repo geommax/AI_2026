@@ -8,13 +8,21 @@ Supported Models:
   - meta-llama/Llama-3.1-8B-Instruct — multilingual ပိုကောင်းတယ်
 """
 
+from pathlib import Path
+
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
 from langchain_huggingface import HuggingFacePipeline
 
 
+MODEL_ID = "Qwen/Qwen2.5-3B-Instruct"
+MODEL_PATH = Path(
+    "~/Desktop/share_drive/models--Qwen--Qwen2.5-3B-Instruct/models--Qwen--Qwen2.5-3B-Instruct/snapshots/aa8e72537993ba99e69dfaafa59ed015b17504d1"
+).expanduser()
+
+
 def load_llm(
-    model_id: str = "Qwen/Qwen2.5-3B-Instruct",
+    model_id: str | Path = MODEL_PATH,
     max_new_tokens: int = 512,
     do_sample: bool = False,
     temperature: float | None = None,

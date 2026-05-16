@@ -1,0 +1,30 @@
+# Core UI and model runtime
+gradio
+torch
+transformers
+accelerate
+
+# LangChain + vector store
+langchain-core
+langchain-classic
+langchain-community
+langchain-text-splitters
+langchain-huggingface
+langchain-chroma
+chromadb
+sentence-transformers
+
+# Document loaders
+pypdf
+unstructured
+python-docx
+python-pptx
+openpyxl
+xlrd
+
+# OCR for image inputs
+pytesseract
+Pillow
+
+# Note: install the Tesseract OCR system binary separately for image OCR to work.
+sentencepiece

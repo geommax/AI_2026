@@ -3,6 +3,10 @@
 QA Bot အတွက် Gradio web interface ကို တည်ဆောက်တယ်။
 """
 
+from runtime_env import sanitize_ssl_env
+
+sanitize_ssl_env()
+
 import gradio as gr
 
 
